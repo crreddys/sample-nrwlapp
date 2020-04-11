@@ -1,8 +1,127 @@
 {
   "version": 1,
-  "projects": {},
+  "projects": {
+    "mysite": {
+      "projectType": "application",
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "apps/mysite",
+      "sourceRoot": "apps/mysite/src",
+      "prefix": "sample-nrwlapp",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/mysite",
+            "index": "apps/mysite/src/index.html",
+            "main": "apps/mysite/src/main.ts",
+            "polyfills": "apps/mysite/src/polyfills.ts",
+            "tsConfig": "apps/mysite/tsconfig.app.json",
+            "aot": true,
+            "assets": ["apps/mysite/src/favicon.ico", "apps/mysite/src/assets"],
+            "styles": ["apps/mysite/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/mysite/src/environments/environment.ts",
+                  "with": "apps/mysite/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "mysite:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "mysite:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "mysite:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/mysite/tsconfig.app.json",
+              "apps/mysite/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/mysite/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/mysite/jest.config.js",
+            "tsConfig": "apps/mysite/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "apps/mysite/src/test-setup.ts"
+          }
+        }
+      }
+    },
+    "mysite-e2e": {
+      "root": "apps/mysite-e2e",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "apps/mysite-e2e/protractor.conf.js",
+            "devServerTarget": "mysite:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "mysite:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": "apps/mysite-e2e/tsconfig.e2e.json",
+            "exclude": ["**/node_modules/**", "!apps/mysite-e2e/**"]
+          }
+        }
+      }
+    }
+  },
   "cli": {
-    "defaultCollection": "@nrwl/workspace"
+    "defaultCollection": "@nrwl/angular"
   },
   "schematics": {
     "@nrwl/workspace": {
@@ -58,6 +177,14 @@
       "library": {
         "linter": "eslint"
       }
+    },
+    "@nrwl/angular:application": {
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "protractor"
+    },
+    "@nrwl/angular:library": {
+      "unitTestRunner": "jest"
     }
-  }
+  },
+  "defaultProject": "mysite"
 }

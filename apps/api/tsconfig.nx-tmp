@@ -5,7 +5,11 @@
     "types": [
       "node"
     ],
-    "paths": {}
+    "paths": {
+      "@sample-nrwlapp/data": [
+        "libs/data/src/index.ts"
+      ]
+    }
   },
   "exclude": [
     "**/*.spec.ts"

@@ -16,7 +16,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@sample-nrwlapp/data": ["libs/data/src/index.ts"]
+      "@sample-nrwlapp/data": ["libs/data/src/index.ts"],
+      "@sample-nrwlapp/ui": ["libs/ui/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
